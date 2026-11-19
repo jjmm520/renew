@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goodyear GASN Store Renewal & Upgrade Feasibility Dashboard</title>
+<style>
+  :root {
+    --gy-navy: #002B66;
+    --gy-navy-light: #0A3D8F;
+    --gy-gold: #FFCC00;
+    --gy-gold-hover: #E5B800;
+    --gy-blue: #2563EB;
+    --gy-blue-light: #EFF6FF;
+    --gy-green: #059669;
+    --gy-green-light: #ECFDF5;
+    --gy-red: #DC2626;
+    --gy-red-light: #FEF2F2;
+    --bg-page: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --border-card: #CBD5E1;
+    --border-light: #E2E8F0;
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
+  body { background-color: var(--bg-page); color: var(--text-primary); padding-bottom: 80px; font-size: 14px; line-height: 1.5; }
+
+  /* Top Executive Header */
+  .top-header {
+    background: #FFFFFF;
+    border-bottom: 2px solid var(--border-card);
+    box-shadow: 0 4px 15px rgba(0, 43, 102, 0.06);
+    padding: 16px 36px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-inner {
+    max-width: 98%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .gy-badge {
+    background: var(--gy-navy);
+    color: var(--gy-gold);
+    font-weight: 900;
+    font-size: 18px;
+    padding: 7px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+  }
+  .gy-sub-badge {
+    background: var(--gy-gold);
+    color: var(--gy-navy);
+    font-size: 12px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-weight: 800;
+  }
+  .header-title-box h1 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--gy-navy);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-title-box p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .toolbar-input-group {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border-card);
+    border-radius: 8px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+  .toolbar-input {
+    width: 65px;
+    border: 1.5px solid #94A3B8;
+    border-radius: 6px;
+    padding: 3px 6px;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--gy-navy);
+    text-align: center;
+  }
+  .btn-light {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border-card);
+    color: var(--text-secondary);
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+  }
+  .btn-light:hover {
+    border-color: var(--gy-navy);
+    color: var(--gy-navy);
+  }
+  .fx-tag {
+    background: var(--gy-green-light);
+    border: 1px solid #A7F3D0;
+    color: var(--gy-green);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 8px;
+  }
+
+  /* Full Width Main Layout (98% Responsive) */
+  .main-wrapper {
+    max-width: 98%;
+    margin: 22px auto 0;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  /* Executive Card */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 14px;
+    padding: 22px 26px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-light);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .card-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .card-title {
+    font-size: 17.5px;
+    font-weight: 800;
+    color: var(--gy-navy);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 19px;
+    background: var(--gy-gold);
+    border-radius: 3px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding-left: 15px;
+  }
+  .pill-focus {
+    background: var(--gy-blue-light);
+    border: 1px solid #BFDBFE;
+    color: var(--gy-blue);
+    font-weight: 800;
+    font-size: 13.5px;
+    padding: 6px 16px;
+    border-radius: 8px;
+  }
+
+  /* Quick Tier Switch Bar */
+  .tier-pill-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .tier-bar-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-secondary);
+    margin-right: 4px;
+  }
+  .tier-pill {
+    background: #F8FAFC;
+    border: 1.5px solid #CBD5E1;
+    color: var(--text-secondary);
+    font-weight: 800;
+    font-size: 13px;
+    padding: 6px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tier-pill:hover {
+    border-color: var(--gy-navy);
+    color: var(--gy-navy);
+  }
+  .tier-pill.active {
+    background: var(--gy-navy);
+    color: #FFFFFF;
+    border-color: var(--gy-navy);
+    box-shadow: 0 2px 6px rgba(0, 43, 102, 0.25);
+  }
+
+  /* Dynamic Timeline (Top) */
+  .timeline-container {
+    background: #F8FAFC;
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 18px 22px;
+  }
+  .tl-legend-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tl-bar-bg {
+    width: 100%;
+    height: 46px;
+    background: #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    border: 1.5px solid #CBD5E1;
+    position: relative;
+  }
+  .tl-seg-p1 {
+    background: var(--gy-navy);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+    border-right: 4px solid var(--gy-gold);
+    transition: width 0.25s ease;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .tl-seg-p2 {
+    background: var(--gy-gold);
+    color: var(--gy-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 13px;
+    transition: width 0.25s ease;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .tl-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* 5 Executive KPI Cards */
+  .kpi-deck {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+  }
+  @media (max-width: 1000px) {
+    .kpi-deck { grid-template-columns: repeat(2, 1fr); }
+  }
+  .kpi-card {
+    background: #F8FAFC;
+    border: 1px solid var(--border-card);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-top: 4px solid var(--gy-navy);
+  }
+  .kpi-card.gold-top { border-top-color: var(--gy-gold); }
+  .kpi-card.green-top { border-top-color: var(--gy-green); }
+  .kpi-card.blue-top { border-top-color: var(--gy-blue); }
+  .kpi-label { font-size: 12px; color: var(--text-secondary); font-weight: 700; }
+  .kpi-num { font-size: 23px; font-weight: 900; color: var(--gy-navy); margin-top: 3px; }
+  .kpi-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
+
+  /* Table: Full Width, Editable Numeric Inputs */
+  .table-box {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  table.matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    text-align: right;
+  }
+  table.matrix-table th {
+    padding: 9px 3px;
+    border: 1px solid var(--border-card);
+    font-weight: 800;
+    font-size: 11.5px;
+    line-height: 1.35;
+    background: #F8FAFC;
+    color: var(--text-primary);
+  }
+  table.matrix-table th.th-tier {
+    width: 5.2%;
+    text-align: left;
+    padding-left: 8px;
+  }
+  table.matrix-table th.group-p1 {
+    background: #EFF6FF;
+    color: var(--gy-blue);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 900;
+    border-bottom: 2px solid #BFDBFE;
+  }
+  table.matrix-table th.group-p2 {
+    background: #FEF9C3;
+    color: #854D0E;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 900;
+    border-bottom: 2px solid #FDE68A;
+  }
+  table.matrix-table td {
+    padding: 8px 3px;
+    border: 1px solid var(--border-card);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  table.matrix-table tr.active-row {
+    background: #FEF9C3 !important;
+    font-weight: 800;
+  }
+  table.matrix-table tr:hover { background: #F1F5F9; }
+  .tbl-edit-input {
+    width: 95%;
+    padding: 3px 3px;
+    border: 1.5px solid #94A3B8;
+    border-radius: 5px;
+    text-align: right;
+    font-weight: 800;
+    color: var(--gy-navy);
+    background: #FFFFFF;
+    font-size: 12px;
+  }
+
+  /* Monthly Evolution Chart (XY Axis) */
+  .chart-canvas-box {
+    position: relative;
+    width: 100%;
+    height: 410px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-card);
+    border-radius: 10px;
+    padding: 8px;
+  }
+
+  /* Two Nodes Callout Bar below chart */
+  .nodes-callout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  @media (max-width: 900px) {
+    .nodes-callout-grid { grid-template-columns: 1fr; }
+  }
+  .node-card {
+    border-radius: 10px;
+    padding: 14px 20px;
+    border: 1.5px solid #CBD5E1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .node-card.gold-border {
+    background: #FFFBEB;
+    border-color: #FDE68A;
+  }
+  .node-card.blue-border {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+  }
+  .node-info-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .node-tag {
+    font-size: 13.5px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .node-desc {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .node-metric { text-align: right; }
+  .node-metric-val {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--gy-navy);
+  }
+  .node-metric-sub {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  /* =========================================================================
+     Section 4: Store Renewal & Upgrade Overall Financial Projection (Bottom Module)
+     ========================================================================= */
+  .overall-config-bar {
+    background: #F8FAFC;
+    border: 1.5px solid var(--border-card);
+    border-radius: 12px;
+    padding: 16px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .tier-counts-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .tier-count-box {
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .tier-count-input {
+    width: 52px;
+    border: 1.5px solid var(--gy-navy);
+    border-radius: 5px;
+    padding: 3px 6px;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--gy-navy);
+    text-align: center;
+  }
+  .compare-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 1024px) {
+    .compare-cards-grid { grid-template-columns: 1fr; }
+  }
+  .strat-card {
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 2px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+  .strat-card.red-strat { border-color: #FCA5A5; background: #FFF5F5; }
+  .strat-card.gold-strat { border-color: #FDE68A; background: #FEFCE8; }
+  .strat-card.green-strat { border-color: #A7F3D0; background: #F0FDF4; }
+  .strat-title { font-size: 16px; font-weight: 800; }
+  .strat-cost { font-size: 27px; font-weight: 900; margin: 4px 0; }
+  .strat-detail { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+  .strat-badge { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+
+  /* 3 Comparative Charts Grid: Flawlessly aligned 3-column layout */
+  .overall-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 1100px) {
+    .overall-charts-grid { grid-template-columns: 1fr; }
+  }
+  .chart-subcard {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border-card);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  }
+  .chart-subhead {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--gy-navy);
+    margin-bottom: 3px;
+  }
+  .chart-subdesc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .svg-bar-box {
+    width: 100%;
+    height: 230px;
+  }
+
+  /* Summary Table within Section 4 */
+  .overall-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: right;
+    margin-top: 10px;
+  }
+  .overall-summary-table th {
+    background: #F8FAFC;
+    color: var(--gy-navy);
+    font-weight: 800;
+    padding: 9px 12px;
+    border: 1px solid var(--border-card);
+    font-size: 12px;
+  }
+  .overall-summary-table td {
+    padding: 9px 12px;
+    border: 1px solid var(--border-card);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Executive Header -->
+<header class="top-header">
+  <div class="header-inner">
+    <div class="brand-group">
+      <div class="gy-badge">
+        <span>GOODYEAR</span>
+        <span class="gy-sub-badge">GASN</span>
+      </div>
+      <div class="header-title-box">
+        <h1>
+          <span>Goodyear GASN Store Renewal & Upgrade Feasibility Dashboard</span>
+        </h1>
+        <p>固特异 GASN 门店续约升级动态测算与商业决策看板 | 5 Standard Tiers (FS+, FS, SC, EXP, EX) | All Monetary Figures in USD (FX: 1 USD = 6.78 CNY)</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <!-- Editable Global Gross Margin per Tire -->
+      <div class="toolbar-input-group">
+        <span>GM/T (USD/Tire | 单胎毛利):</span>
+        <input type="number" id="tbGmtInput" class="toolbar-input" value="27.0" step="0.5" onchange="updateGlobalGmt(this.value)">
+      </div>
+
+      <div class="fx-tag">💱 Exchange Rate: 1 USD = 6.78 CNY</div>
+
+      <button class="btn-light" onclick="resetToBaseline()">↺ Reset Baseline (重置)</button>
+    </div>
+  </div>
+</header>
+
+<div class="main-wrapper">
+
+  <!-- =========================================================================
+       SECTION 1 (TOP): 全生命周期动态时间轴 | Full Lifecycle Dynamic Time Axis
+       ========================================================================= -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-title" id="tlTitle">Full Lifecycle Dynamic Time Axis | 全生命周期动态时间轴 ( FS+ · Flagship Store )</div>
+        <div class="card-desc">Phase I Contract Period (Blue) + Phase II Renewal Upgrade Period (Gold | Default 24 Months, Fully Editable)</div>
+      </div>
+      <div class="pill-focus" style="background:var(--gy-green-light); border-color:#A7F3D0; color:var(--gy-green);" id="roiBadge">
+        Total ROI: 1045%
+      </div>
+    </div>
+
+    <div class="timeline-container">
+      <div class="tl-legend-line">
+        <span style="color:var(--gy-navy);" id="lblTlP1">① Phase I Contract Period: 60 Months (Hits 500% Target ROI at Month 32)</span>
+        <span style="color:#B45309;" id="lblTlP2">② Phase II Renewal Upgrade: +24 Months</span>
+      </div>
+
+      <div class="tl-bar-bg">
+        <div class="tl-seg-p1" id="segP1" style="width:71.4%;">Phase I Contract: 60m</div>
+        <div class="tl-seg-p2" id="segP2" style="width:28.6%;">Phase II Renewal: +24m</div>
+      </div>
+
+      <div class="tl-scale">
+        <span>Month 0 (Initial Store Opening)</span>
+        <span style="color:var(--gy-blue); font-weight:800;" id="scaleTrigger">★ Month 32: Reached 500% Target ROI Milestone (Cumulative 9,630 Tires)</span>
+        <span style="color:var(--gy-navy); font-weight:800;" id="scaleEnd">Month 84: Full Lifecycle Complete (60m + 24m)</span>
+      </div>
+    </div>
+
+    <!-- 5 Executive KPI Cards -->
+    <div class="kpi-deck">
+      <div class="kpi-card blue-top">
+        <div class="kpi-label">Phase I Duration | 一期合同期</div>
+        <div class="kpi-num" id="kpiP1Months">60 Months</div>
+        <div class="kpi-sub" id="kpiTargetM">Target ROI Hit: Month 32</div>
+      </div>
+      <div class="kpi-card gold-top">
+        <div class="kpi-label">Total Lifecycle Duration | 全生命周期</div>
+        <div class="kpi-num" id="kpiTotalMonths">84 Months</div>
+        <div class="kpi-sub" id="kpiFormulaMonths">60m (Phase I) + 24m (Phase II)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Cumulative Total Investment | 两期总投资</div>
+        <div class="kpi-num" id="kpiTotalInv">$67,600</div>
+        <div class="kpi-sub" id="kpiInvSplit">P1: $52,000 + P2(30%): $15,600</div>
+      </div>
+      <div class="kpi-card green-top">
+        <div class="kpi-label">Cumulative Total Revenue | 全周期总毛利</div>
+        <div class="kpi-num" style="color:var(--gy-green);" id="kpiTotalRev">$706,320</div>
+        <div class="kpi-sub" id="kpiRevSplit">P1: $486,000 + P2: $220,320</div>
+      </div>
+      <div class="kpi-card gold-top">
+        <div class="kpi-label">Full Lifecycle Total ROI | 全周期综合ROI</div>
+        <div class="kpi-num" style="color:#B45309;" id="kpiTotalRoi">1045%</div>
+        <div class="kpi-sub" id="kpiRoiVsP1">Phase I ROI: 935% (Uplift: +110%)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SECTION 2 (MIDDLE): 全景联动数据测算总表 | Complete Financial Matrix Table (With ROI Uplift Column)
+       ========================================================================= -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-title">Complete Financial Matrix Table | 全景联动数据测算总表 (5 Standard Tiers - USD)</div>
+        <div class="card-desc">100% Full-Width Responsive | EXP Baseline: TPP₁=16, Period=24m | "ROI Uplift (2 Cycles vs 1 Cycle)" Comparison Included</div>
+      </div>
+      <div class="pill-focus" id="focusTag">Current Focus: EXP (EXP 驾途店)</div>
+    </div>
+
+    <!-- Quick Tier Switch Capsule Bar (5 Tiers Only) -->
+    <div class="tier-pill-bar">
+      <span class="tier-bar-label">Select Focus Store Tier (选择焦点门店):</span>
+      <div id="tierBar" style="display:inline-flex; gap:8px; flex-wrap:wrap;"></div>
+    </div>
+
+    <div class="table-box">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th rowspan="2" class="th-tier">Store Type<br>门店级别</th>
+            <th colspan="10" class="group-p1">Phase I · First Contract Period (Baseline Model & Target Achievement | USD)</th>
+            <th colspan="7" class="group-p2">Phase II · Renewal Upgrade (Default Support Fund & Combined Return | USD)</th>
+          </tr>
+          <tr>
+            <th style="width:6.6%;">Investment ($)<br>一期投资额</th>
+            <th style="width:4.6%; background:#F1F5F9; color:var(--gy-navy);">GM/T ($)<br>单胎毛利</th>
+            <th style="width:4.6%;">Period (m)<br>合约周期</th>
+            <th style="width:4.8%;">Base TPP<br>月签约量</th>
+            <th style="width:5.2%;">Contract Vol<br>期满总销量</th>
+            <th style="width:5.2%;">Target ROI<br>目标回报率</th>
+            <th style="width:5.2%;">Target ROI #<br>达标需销量</th>
+            <th style="width:5.0%; color:var(--gy-blue);">Months to #<br>达标月数</th>
+            <th style="width:6.2%;">Revenue ($)<br>一期总毛利</th>
+            <th style="width:4.8%; color:var(--gy-blue);">Phase I ROI<br>一期ROI</th>
+
+            <th style="width:5.0%;">Inv %<br>二期比例</th>
+            <th style="width:5.8%;">Investment ($)<br>二期升级金</th>
+            <th style="width:8.2%; color:var(--gy-green);">Volume/Mo<br>二期月销量 (+Δ)</th>
+            <th style="width:4.8%; background:#FEF9C3; color:#854D0E;">Renew (m)<br>续约期</th>
+            <th style="width:6.6%;">Total Rev ($)<br>两期总毛利</th>
+            <th style="width:5.6%; color:#B45309; font-weight:900;">Total ROI<br>两期总ROI</th>
+            <th style="width:6.2%; background:#ECFDF5; color:var(--gy-green); font-weight:900;">ROI Uplift<br>两期对比增幅</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SECTION 3 (MIDDLE-BOTTOM): 月度投资演进全景图 | Monthly Investment vs Return Evolution
+       ========================================================================= -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-title" id="xyChartTitle">Monthly Investment vs Return Evolution | 月度投资与回报演进全景图 ( EXP )</div>
+        <div class="card-desc">X-Axis: Contract Timeline (Months 0 to Complete) | Left Y-Axis: Amount (USD) | Right Y-Axis: Cumulative ROI (%)</div>
+      </div>
+      <div style="font-size:12.5px; display:flex; gap:18px; align-items:center; flex-wrap:wrap; font-weight:700;">
+        <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:12px; height:9px; background:#DC2626; border-radius:2px;"></span> Cumulative Investment Step (投资阶梯)</span>
+        <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:12px; height:9px; background:#059669; border-radius:2px;"></span> Cumulative Revenue Curve (毛利产出)</span>
+        <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:12px; height:4px; background:#2563EB;"></span> Cumulative ROI Progression (实时ROI曲线)</span>
+      </div>
+    </div>
+
+    <!-- SVG Canvas -->
+    <div class="chart-canvas-box">
+      <svg id="evolutionSvg" style="width:100%; height:100%;"></svg>
+    </div>
+
+    <!-- Crucial Two Nodes Callout Cards -->
+    <div class="nodes-callout-grid">
+      <!-- Node 1: 100% Payback Threshold -->
+      <div class="node-card gold-border">
+        <div class="node-info-left">
+          <div class="node-tag" style="color:#B45309;">
+            <span>★ Node 1: 100% Capital Payback Milestone (100% 本金收回节点)</span>
+          </div>
+          <div class="node-desc" id="node1Desc">
+            Store gross profit reaches $6,768, 100% recovering initial Phase I investment, entering pure profit safety zone.
+          </div>
+        </div>
+        <div class="node-metric">
+          <div class="node-metric-val" style="color:#B45309;" id="node1MonthVal">Month 15.7</div>
+          <div class="node-metric-sub" id="node1TireVal">Cum. 251 Tires</div>
+        </div>
+      </div>
+
+      <!-- Node 2: Target ROI Early Renewal Trigger -->
+      <div class="node-card blue-border">
+        <div class="node-info-left">
+          <div class="node-tag" style="color:var(--gy-blue);">
+            <span>★ Node 2: Target ROI Trigger Milestone (达成预设目标 ROI 节点)</span>
+          </div>
+          <div class="node-desc" id="node2Desc">
+            Hits 150% Target ROI! Reaching this node proactively triggers early renewal eligibility with upgrade funds.
+          </div>
+        </div>
+        <div class="node-metric">
+          <div class="node-metric-val" style="color:var(--gy-blue);" id="node2MonthVal">Month 24</div>
+          <div class="node-metric-sub" id="node2TireVal">Cum. 376 Tires</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SECTION 4 (BOTTOM MODULE): 门店续约升级整体测算 (Store Renewal & Upgrade Overall Financial Projection)
+       ========================================================================= -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-title">门店续约升级整体测算 | Store Renewal & Upgrade Overall Financial Projection</div>
+        <div class="card-desc">Portfolio Simulation & Quantitative Decision Model: Full Remodel (100% Cost) vs. Hybrid Model vs. Renewal Upgrade (50% Cost)</div>
+      </div>
+      <div class="pill-focus" style="background:#F0FDF4; border-color:#86EFAC; color:#15803D;" id="costSaveTag">
+        Hybrid Net Cost Savings: $130,068 (-25.0%)
+      </div>
+    </div>
+
+    <!-- Store Mix Configuration Bar (Editable level counts initialized to image_9a28c8.png) -->
+    <div class="overall-config-bar">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div style="font-size:14.5px; font-weight:800; color:var(--gy-navy);">
+          Portfolio Store Count by Tier (各级别门店续约数量配置):
+        </div>
+        <div style="font-size:13.5px; font-weight:800; color:var(--text-secondary);">
+          Total Renewing Stores (总门店数): <span id="dispTotalStoresCount" style="color:var(--gy-blue); font-size:17px; font-weight:900;">50</span> Stores
+        </div>
+      </div>
+
+      <!-- 5 Input Boxes for Tier Distribution initialized to 2, 8, 12, 14, 14 -->
+      <div class="tier-counts-row">
+        <div class="tier-count-box">
+          <span>FS+ (Flagship 旗舰店):</span>
+          <input type="number" id="cntFSPlus" class="tier-count-input" value="2" min="0" max="100" onchange="recalcOverallSimulation()">
+          <span>Stores</span>
+        </div>
+        <div class="tier-count-box">
+          <span>FS (Core 驾悦店):</span>
+          <input type="number" id="cntFS" class="tier-count-input" value="8" min="0" max="200" onchange="recalcOverallSimulation()">
+          <span>Stores</span>
+        </div>
+        <div class="tier-count-box">
+          <span>SC (Hub 驾乘中心):</span>
+          <input type="number" id="cntSC" class="tier-count-input" value="12" min="0" max="300" onchange="recalcOverallSimulation()">
+          <span>Stores</span>
+        </div>
+        <div class="tier-count-box">
+          <span>EXP (Express 驾途店):</span>
+          <input type="number" id="cntEXP" class="tier-count-input" value="14" min="0" max="300" onchange="recalcOverallSimulation()">
+          <span>Stores</span>
+        </div>
+        <div class="tier-count-box">
+          <span>EX (Speed 驾速店):</span>
+          <input type="number" id="cntEX" class="tier-count-input" value="14" min="0" max="300" onchange="recalcOverallSimulation()">
+          <span>Stores</span>
+        </div>
+      </div>
+
+      <!-- Hybrid Mix Slider -->
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; border-top:1px dashed #CBD5E1; padding-top:12px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <strong style="color:var(--gy-navy);">Hybrid Strategy Mix (重装比例设置):</strong>
+          <input type="range" id="simRemodelRatio" min="0" max="100" step="5" value="50" oninput="recalcOverallSimulation()" style="accent-color:var(--gy-navy); width:150px;">
+          <span id="dispRemodelRatio" style="font-weight:800; color:var(--gy-navy); width:45px;">50%</span>
+        </div>
+        <div style="font-size:13px; color:var(--text-secondary);">
+          Allocation: <strong id="dispCountRemodel" style="color:var(--gy-red);">25 Stores</strong> 100% Full Remodel + <strong id="dispCountUpgrade" style="color:var(--gy-green);">25 Stores</strong> 50% Renewal Upgrade
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Strategy Cards -->
+    <div class="compare-cards-grid">
+      <!-- Strategy A -->
+      <div class="strat-card red-strat">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="strat-title" style="color:#991B1B;">Strategy A: Traditional 100% Remodel</div>
+            <span class="strat-badge" style="background:#FEE2E2; color:#991B1B;">100% Budget Required</span>
+          </div>
+          <div class="strat-cost" style="color:#B91C1C;" id="costStratA">$520,272</div>
+          <div class="strat-detail" id="detailStratA">
+            • All stores shut down for complete exterior/interior refurbishment<br>
+            • Average capital investment per store: <strong>$10,405</strong><br>
+            • Construction downtime leads to customer churn and zero incremental volume incentive
+          </div>
+        </div>
+        <div style="border-top:1px dashed #F87171; padding-top:10px; font-size:12px; font-weight:700; color:#7F1D1D;">
+          Baseline Capital Expenditure (No Savings)
+        </div>
+      </div>
+
+      <!-- Strategy B -->
+      <div class="strat-card gold-strat">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="strat-title" style="color:#854D0E;">Strategy B: Balanced Hybrid Model (Current)</div>
+            <span class="strat-badge" style="background:#FEF3C7; color:#854D0E;">Half Remodel + Half Upgrade</span>
+          </div>
+          <div class="strat-cost" style="color:#B45309;" id="costStratB">$390,204</div>
+          <div class="strat-detail" id="detailStratB">
+            • Aged stores execute 100% full renovation ($260,136)<br>
+            • Viable stores execute renewal upgrade (${fmtMoney(costUpgradeFull * upgradeFraction)})<br>
+            • Upgraded stores avoid closure, immediately installing EV & tool equipment
+          </div>
+        </div>
+        <div style="border-top:1px dashed #FBBF24; padding-top:10px; font-size:12.5px; font-weight:800; color:#B45309;" id="savingStratB">
+          ★ Net Capital Savings: $130,068 (-25.0%)
+        </div>
+      </div>
+
+      <!-- Strategy C -->
+      <div class="strat-card green-strat">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="strat-title" style="color:#166534;">Strategy C: 100% Renewal Upgrade</div>
+            <span class="strat-badge" style="background:#DCFCE7; color:#166534;">Maximum Capital Leverage</span>
+          </div>
+          <div class="strat-cost" style="color:#15803D;" id="costStratC">$260,136</div>
+          <div class="strat-detail" id="detailStratC">
+            • All stores exempt from major hard refurbishment<br>
+            • 100% funds channeled into EV display & high-efficiency machinery<br>
+            • Unlocks maximum incremental tires across Phase II
+          </div>
+        </div>
+        <div style="border-top:1px dashed #86EFAC; padding-top:10px; font-size:12.5px; font-weight:800; color:#15803D;" id="savingStratC">
+          ★ Maximum Capital Savings: $260,136 (-50.0%)
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Comparative Charts Grid: Flawlessly aligned 3-column layout -->
+    <div class="overall-charts-grid">
+      <!-- Chart 1: Tire Volume Comparison -->
+      <div class="chart-subcard">
+        <div class="chart-subhead">1. Tire Volume Comparison | 轮胎出货总量对比</div>
+        <div class="chart-subdesc">Baseline vs. Incremental Tire Volume (Tires / 条数)</div>
+        <div class="svg-bar-box">
+          <svg id="chartVolumeSvg" viewBox="0 0 320 200" width="100%" height="100%"></svg>
+        </div>
+      </div>
+
+      <!-- Chart 2: Capital Expenditure (Cost) Comparison -->
+      <div class="chart-subcard">
+        <div class="chart-subhead">2. Total Investment Cost | 资本开支总金额对比</div>
+        <div class="chart-subdesc">Total Phase II Capital Outlay & Net Savings (USD / 金额)</div>
+        <div class="svg-bar-box">
+          <svg id="chartCostSvg" viewBox="0 0 320 200" width="100%" height="100%"></svg>
+        </div>
+      </div>
+
+      <!-- Chart 3: Capital Return (ROI) Comparison -->
+      <div class="chart-subcard">
+        <div class="chart-subhead">3. Investment Return (ROI) | 投资回报率对比</div>
+        <div class="chart-subdesc">Phase II Capital Efficiency & Revenue Return (ROI %)</div>
+        <div class="svg-bar-box">
+          <svg id="chartRoiSvg" viewBox="0 0 320 200" width="100%" height="100%"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Summary Table for Portfolio Metrics -->
+    <div style="background:#FFFFFF; border:1px solid var(--border-card); border-radius:10px; padding:16px; overflow-x:auto;">
+      <div style="font-size:14px; font-weight:800; color:var(--gy-navy); margin-bottom:10px;">
+        Quantitative Scenario Analysis Matrix | 策略量化对比分析矩阵
+      </div>
+      <table class="overall-summary-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Strategic Scenario (策略方案)</th>
+            <th>Total Capex (总资本开支)</th>
+            <th>Net Savings (净节省开支)</th>
+            <th>Savings % (节省比例)</th>
+            <th>Phase II Tires (二期出货量)</th>
+            <th>Incremental Tires (净增量)</th>
+            <th>Total Revenue (二期总毛利)</th>
+            <th>Phase II ROI (资本回报率)</th>
+          </tr>
+        </thead>
+        <tbody id="overallSummaryTableBody"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const FX_RATE = 6.78;
+const DEFAULT_GMT_USD = 27.00;
+
+// Base Data: Exactly matches image_46d8a5.png
+const BASELINE_5 = [
+  { id: 'FS+', name: 'FS+ Flagship (驾享旗舰店)', inv1_usd: 52000, origP1: 60, tpp1: 300, targetRoiPct: 500, inv2Pct: 30, tpp2: 340, period2: 24 },
+  { id: 'FS',  name: 'FS Core (驾悦店)',         inv1_usd: 18190, origP1: 48, tpp1: 60,  targetRoiPct: 300, inv2Pct: 40, tpp2: 76,  period2: 24 },
+  { id: 'SC',  name: 'SC Hub (驾乘中心)',        inv1_usd: 11190, origP1: 36, tpp1: 30,  targetRoiPct: 200, inv2Pct: 50, tpp2: 38,  period2: 24 },
+  { id: 'EXP', name: 'EXP Express (驾途店)',     inv1_usd: 6768,  origP1: 24, tpp1: 16,  targetRoiPct: 150, inv2Pct: 60, tpp2: 20,  period2: 24 },
+  { id: 'EX',  name: 'EX Speed (驾速店)',        inv1_usd: 2980,  origP1: 24, tpp1: 8,   targetRoiPct: 150, inv2Pct: 70, tpp2: 10,  period2: 24 }
+];
+
+let activeTierId = 'EXP';
+let globalGmtUsd = DEFAULT_GMT_USD;
+let tierList = [];
+
+function cloneDefaults() {
+  return BASELINE_5.map(d => ({ ...d }));
+}
+
+function fmtMoney(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function fmtInt(n) { return Math.round(n).toLocaleString('en-US'); }
+function fmtPct(n) { return Math.round(n) + '%'; }
+
+function init() {
+  tierList = cloneDefaults();
+  activeTierId = 'EXP';
+  render();
+  recalcOverallSimulation();
+}
+
+function updateGlobalGmt(val) {
+  const num = parseFloat(val);
+  if (isNaN(num) || num <= 0) return;
+  globalGmtUsd = num;
+  render();
+  recalcOverallSimulation();
+}
+
+function resetToBaseline() {
+  globalGmtUsd = DEFAULT_GMT_USD;
+  document.getElementById('tbGmtInput').value = DEFAULT_GMT_USD.toFixed(1);
+  tierList = cloneDefaults();
+  activeTierId = 'EXP';
+  document.getElementById('cntFSPlus').value = 2;
+  document.getElementById('cntFS').value = 8;
+  document.getElementById('cntSC').value = 12;
+  document.getElementById('cntEXP').value = 14;
+  document.getElementById('cntEX').value = 14;
+  document.getElementById('simRemodelRatio').value = 50;
+  render();
+  recalcOverallSimulation();
+}
+
+function selectTier(id) {
+  activeTierId = id;
+  render();
+}
+
+function changeRowParam(id, key, val) {
+  const num = parseFloat(val);
+  if (isNaN(num)) return;
+  const item = tierList.find(t => t.id === id);
+  if (item) {
+    item[key] = num;
+    activeTierId = id;
+    render();
+    recalcOverallSimulation();
+  }
+}
+
+// Compute single store row logic
+function compute(t) {
+  const inv1Usd = t.inv1_usd;
+  const gmt = globalGmtUsd;
+  const vol1 = t.origP1 * t.tpp1;
+
+  // 100% ROI payback
+  const tires100 = inv1Usd / gmt;
+  const m100 = tires100 / t.tpp1;
+
+  // Target ROI calculations
+  const targetTires = Math.round((inv1Usd * (t.targetRoiPct / 100)) / gmt);
+  const mTarget = Math.round(targetTires / t.tpp1);
+
+  // Phase I Revenue & ROI
+  const rev1Usd = vol1 * gmt;
+  const roi1Pct = (rev1Usd / inv1Usd) * 100;
+
+  // Phase II Calculations
+  const inv2Usd = Math.round(inv1Usd * (t.inv2Pct / 100));
+  const incTpp = t.tpp2 - t.tpp1;
+  const vol2 = t.tpp2 * t.period2;
+  const rev2Usd = vol2 * gmt;
+
+  // Total Lifecycle
+  const totalPeriod = t.origP1 + t.period2;
+  const totalRevUsd = rev1Usd + rev2Usd;
+  const totalInvUsd = inv1Usd + inv2Usd;
+  const totalRoiPct = (totalRevUsd / totalInvUsd) * 100;
+
+  // ROI Uplift: 2 Cycles vs 1 Cycle (Percentage points difference)
+  const roiDiff = totalRoiPct - roi1Pct;
+
+  return {
+    ...t,
+    gmt,
+    inv1Usd,
+    vol1,
+    tires100,
+    m100,
+    targetTires,
+    mTarget,
+    rev1Usd,
+    roi1Pct,
+    inv2Usd,
+    incTpp,
+    vol2,
+    rev2Usd,
+    totalPeriod,
+    totalRevUsd,
+    totalInvUsd,
+    totalRoiPct,
+    roiDiff
+  };
+}
+
+function render() {
+  const data = tierList.map(compute);
+  const focus = data.find(d => d.id === activeTierId) || data[0];
+
+  // Quick switch pills (5 Tiers Only)
+  const pillBar = document.getElementById('tierBar');
+  pillBar.innerHTML = data.map(d => `
+    <button class="tier-pill ${d.id === focus.id ? 'active' : ''}" onclick="selectTier('${d.id}')">${d.id}</button>
+  `).join('');
+
+  document.getElementById('focusTag').innerText = `Current Focus: ${focus.id} (${focus.name})`;
+
+  // Render Table with added ROI Uplift Column
+  document.getElementById('tableBody').innerHTML = data.map(d => {
+    const diffSign = d.roiDiff >= 0 ? '+' : '';
+    const diffColor = d.roiDiff >= 0 ? 'var(--gy-green)' : 'var(--gy-red)';
+    return `
+    <tr class="${d.id === focus.id ? 'active-row' : ''}" onclick="selectTier('${d.id}')" style="cursor:pointer;">
+      <td style="text-align:left; font-weight:900; color:var(--gy-navy); padding-left:8px;">${d.id}</td>
+      
+      <!-- Editable P1 Inv -->
+      <td>
+        <input type="number" class="tbl-edit-input" style="width:96%;" value="${Math.round(d.inv1Usd)}" onclick="event.stopPropagation()" onchange="changeRowParam('${d.id}', 'inv1_usd', this.value)">
+      </td>
+      
+      <!-- Linked GM/T as plain text linked to top input -->
+      <td style="font-weight:700; color:var(--gy-navy); background:#F8FAFC;">
+        $${globalGmtUsd.toFixed(1)}
+      </td>
+
+      <!-- Editable Period -->
+      <td>
+        <input type="number" class="tbl-edit-input" style="width:85%;" value="${d.origP1}" onclick="event.stopPropagation()" onchange="changeRowParam('${d.id}', 'origP1', this.value)">
+      </td>
+      
+      <!-- Editable Base TPP -->
+      <td>
+        <input type="number" class="tbl-edit-input" style="width:92%;" value="${d.tpp1}" onclick="event.stopPropagation()" onchange="changeRowParam('${d.id}', 'tpp1', this.value)">
+      </td>
+
+      <td style="font-weight:700;">${fmtInt(d.vol1)}</td>
+
+      <!-- Editable Target ROI -->
+      <td>
+        <div style="display:flex; align-items:center; justify-content:flex-end; gap:2px;">
+          <input type="number" class="tbl-edit-input" style="width:70%;" value="${d.targetRoiPct}" step="10" onclick="event.stopPropagation()" onchange="changeRowParam('${d.id}', 'targetRoiPct', this.value)"><span>%</span>
+        </div>
+      </td>
+
+      <td style="font-weight:700;">${fmtInt(d.targetTires)}</td>
+      <td style="font-weight:900; color:var(--gy-blue);">${d.mTarget}m</td>
+      <td style="font-weight:800;">${fmtMoney(d.rev1Usd)}</td>
+      <td style="font-weight:900; color:var(--gy-blue);">${d.roi1Pct.toFixed(0)}%</td>
+
+      <!-- Editable Inv2 % -->
+      <td style="background:#FEFCE8;">
+        <div style="display:flex; align-items:center; justify-content:flex-end; gap:2px;">
+          <input type="number" class="tbl-edit-input" style="width:70%;" value="${d.inv2Pct}" step="5" onclick="event.stopPropagation()" onchange="changeRowParam('${d.id}', 'inv2Pct', this.value)"><span>%</span>
+        </div>
+      </td>
+
+      <td style="background:#FEFCE8; font-weight:700;">${fmtMoney(d.inv2Usd)}</td>
+
+      <!-- Editable Phase II TPP2 with complete visible increment -->
+      <td style="background:#FEFCE8; color:var(--gy-green); font-weight:900; white-space:nowrap;">
+        <span style="display:inline-flex; align-items:center; justify-content:flex-end; gap:2px;">
+          <input type="number" class="tbl-edit-input" style="width:48px; color:var(--gy-green);" value="${d.tpp2}" onclick="event.stopPropagation()" onchange="changeRowParam('${d.id}', 'tpp2', this.value)">
+          <span style="font-size:11px; color:var(--gy-green);">(+${d.incTpp})</span>
+        </span>
+      </td>
+
+      <!-- Editable Phase II Renew Period -->
+      <td style="background:#FEFCE8;">
+        <input type="number" class="tbl-edit-input" style="width:85%; background:#FFFBEB; font-weight:800; color:#854D0E;" value="${d.period2}" onclick="event.stopPropagation()" onchange="changeRowParam('${d.id}', 'period2', this.value)">
+      </td>
+
+      <td style="background:#FEFCE8; font-weight:800;">${fmtMoney(d.totalRevUsd)}</td>
+      <td style="background:#FEF08A; font-weight:900; color:#B45309; font-size:13.5px;">${d.totalRoiPct.toFixed(0)}%</td>
+
+      <!-- ROI Uplift (Total ROI vs Phase I ROI) -->
+      <td style="background:#ECFDF5; font-weight:900; color:${diffColor}; font-size:13px;">
+        ${diffSign}${Math.round(d.roiDiff)}%
+      </td>
+    </tr>
+    `;
+  }).join('');
+
+  // Callout cards for Two Nodes
+  document.getElementById('node1Desc').innerText = `Store cumulative revenue reaches ${fmtMoney(focus.inv1Usd)}, 100% recovering initial Phase I investment (纯利安全期)`;
+  document.getElementById('node1MonthVal').innerText = `Month ${focus.m100.toFixed(1)}`;
+  document.getElementById('node1TireVal').innerText = `Cum. ${fmtInt(focus.tires100)} Tires`;
+
+  document.getElementById('node2Desc').innerText = `Reached ${focus.targetRoiPct}% Target ROI! Proactively triggers renewal eligibility with upgrade funds (触发续签资格)`;
+  document.getElementById('node2MonthVal').innerText = `Month ${focus.mTarget}`;
+  document.getElementById('node2TireVal').innerText = `Cum. ${fmtInt(focus.targetTires)} Tires`;
+
+  // Timeline (Top)
+  document.getElementById('tlTitle').innerText = `Full Lifecycle Dynamic Time Axis | 全生命周期动态时间轴 ( ${focus.id} · ${focus.name} )`;
+  document.getElementById('roiBadge').innerText = `Total ROI: ${fmtPct(focus.totalRoiPct)}`;
+
+  document.getElementById('lblTlP1').innerText = `① Phase I Contract: ${focus.origP1} Months (Hits ${focus.targetRoiPct}% Target ROI at Month ${focus.mTarget})`;
+  document.getElementById('lblTlP2').innerText = `② Phase II Renewal Upgrade: +${focus.period2} Months`;
+
+  const w1 = (focus.origP1 / focus.totalPeriod) * 100;
+  const w2 = (focus.period2 / focus.totalPeriod) * 100;
+  document.getElementById('segP1').style.width = w1 + '%';
+  document.getElementById('segP1').innerText = `Phase I Contract: ${focus.origP1}m`;
+  document.getElementById('segP2').style.width = w2 + '%';
+  document.getElementById('segP2').innerText = `Phase II Renewal: +${focus.period2}m`;
+
+  document.getElementById('scaleTrigger').innerText = `★ Month ${focus.mTarget}: Reached ${focus.targetRoiPct}% Target ROI (Cum. ${fmtInt(focus.targetTires)} Tires)`;
+  document.getElementById('scaleEnd').innerText = `Month ${focus.totalPeriod}: Full Lifecycle Complete (${focus.origP1}m + ${focus.period2}m)`;
+
+  // KPIs
+  document.getElementById('kpiP1Months').innerText = focus.origP1 + ' Months';
+  document.getElementById('kpiTargetM').innerText = `Target Hit: Month ${focus.mTarget}`;
+
+  document.getElementById('kpiTotalMonths').innerText = focus.totalPeriod + ' Months';
+  document.getElementById('kpiFormulaMonths').innerText = `${focus.origP1}m (Phase I) + ${focus.period2}m (Phase II)`;
+
+  document.getElementById('kpiTotalInv').innerText = fmtMoney(focus.totalInvUsd);
+  document.getElementById('kpiInvSplit').innerText = `P1: ${fmtMoney(focus.inv1Usd)} + P2(${focus.inv2Pct}%): ${fmtMoney(focus.inv2Usd)}`;
+
+  document.getElementById('kpiTotalRev').innerText = fmtMoney(focus.totalRevUsd);
+  document.getElementById('kpiRevSplit').innerText = `P1: ${fmtMoney(focus.rev1Usd)} + P2: ${fmtMoney(focus.rev2Usd)}`;
+
+  document.getElementById('kpiTotalRoi').innerText = fmtPct(focus.totalRoiPct);
+  const diffSign = focus.roiDiff >= 0 ? '+' : '';
+  document.getElementById('kpiRoiVsP1').innerText = `Phase I ROI: ${fmtPct(focus.roi1Pct)} (Uplift: ${diffSign}${Math.round(focus.roiDiff)}%)`;
+
+  // Render SVG Chart
+  renderEvolutionChart(focus);
+}
+
+// Monthly XY Evolution Chart
+function renderEvolutionChart(focus) {
+  document.getElementById('xyChartTitle').innerText = `Monthly Investment vs Return Evolution | 月度投资与回报演进全景图 ( ${focus.id} · ${focus.name} )`;
+
+  const svg = document.getElementById('evolutionSvg');
+  const w = 1100, h = 390, padL = 75, padR = 75, padT = 45, padB = 45;
+  const pw = w - padL - padR;
+  const ph = h - padT - padB;
+
+  const totalM = focus.totalPeriod;
+  const p1EndM = focus.origP1;
+  const gmt = globalGmtUsd;
+
+  // Coordinates
+  const pts = [];
+  for (let m = 0; m <= totalM; m++) {
+    let curInv = focus.inv1Usd;
+    let curRev = 0;
+    if (m <= p1EndM) {
+      curRev = m * focus.tpp1 * gmt;
+    } else {
+      curInv = focus.inv1Usd + focus.inv2Usd;
+      const p2m = m - p1EndM;
+      curRev = focus.rev1Usd + (p2m * focus.tpp2 * gmt);
+    }
+    const curRoi = (curRev / curInv) * 100;
+    pts.push({ m, inv: curInv, rev: curRev, roi: curRoi });
+  }
+
+  const maxMoney = Math.max(focus.totalInvUsd, focus.totalRevUsd) * 1.15;
+  const maxRoi = Math.max(100, focus.targetRoiPct, focus.totalRoiPct) * 1.18;
+
+  const toX = (m) => padL + (m / totalM) * pw;
+  const toYMoney = (val) => padT + ph - (val / maxMoney) * ph;
+  const toYRoi = (val) => padT + ph - (val / maxRoi) * ph;
+
+  let content = '';
+
+  // Grid Lines & Axis Ticks
+  for (let i = 0; i <= 5; i++) {
+    const y = padT + (ph / 5) * i;
+    const mVal = maxMoney * (1 - i / 5);
+    const rVal = maxRoi * (1 - i / 5);
+    content += `
+      <line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="#F1F5F9" stroke-width="1.2" stroke-dasharray="3 3"/>
+      <text x="${padL - 10}" y="${y + 5}" fill="#475569" font-size="12" font-weight="700" text-anchor="end">$${Math.round(mVal/1000)}k</text>
+      <text x="${w - padR + 10}" y="${y + 5}" fill="#2563EB" font-size="12" font-weight="800" text-anchor="start">${Math.round(rVal)}%</text>
+    `;
+  }
+
+  // X Axis Ticks (Months)
+  const stepM = totalM > 50 ? 10 : 5;
+  for (let m = 0; m <= totalM; m += stepM) {
+    const x = toX(m);
+    content += `
+      <line x1="${x}" y1="${padT + ph}" x2="${x}" y2="${padT + ph + 6}" stroke="#94A3B8" />
+      <text x="${x}" y="${padT + ph + 20}" fill="#475569" font-size="12" font-weight="700" text-anchor="middle">M${m}</text>
+    `;
+  }
+
+  // Area Path for Cumulative Revenue
+  let revAreaD = `M ${toX(0)} ${toYMoney(0)}`;
+  pts.forEach(p => { revAreaD += ` L ${toX(p.m)} ${toYMoney(p.rev)}`; });
+  revAreaD += ` L ${toX(totalM)} ${toYMoney(0)} Z`;
+
+  content += `
+    <defs>
+      <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#059669" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#059669" stop-opacity="0.02"/>
+      </linearGradient>
+    </defs>
+    <path d="${revAreaD}" fill="url(#revGrad)" />
+  `;
+
+  // Step Line for Cumulative Investment
+  let invStepD = `M ${toX(0)} ${toYMoney(focus.inv1Usd)} L ${toX(p1EndM)} ${toYMoney(focus.inv1Usd)} L ${toX(p1EndM)} ${toYMoney(focus.totalInvUsd)} L ${toX(totalM)} ${toYMoney(focus.totalInvUsd)}`;
+  content += `<path d="${invStepD}" fill="none" stroke="#DC2626" stroke-width="2.8" />`;
+
+  // Line for Cumulative Revenue
+  let revLineD = `M ${toX(0)} ${toYMoney(0)}`;
+  pts.forEach(p => { revLineD += ` L ${toX(p.m)} ${toYMoney(p.rev)}`; });
+  content += `<path d="${revLineD}" fill="none" stroke="#059669" stroke-width="2.8" />`;
+
+  // Line for Cumulative ROI
+  let roiLineD = `M ${toX(0)} ${toYRoi(0)}`;
+  pts.forEach(p => { roiLineD += ` L ${toX(p.m)} ${toYRoi(p.roi)}`; });
+  content += `<path d="${roiLineD}" fill="none" stroke="#2563EB" stroke-width="2.8" stroke-dasharray="6 4" />`;
+
+  // 100% Payback Milestone Node
+  const x100 = toX(focus.m100);
+  const y100Roi = toYRoi(100);
+
+  content += `
+    <line x1="${x100}" y1="${y100Roi}" x2="${x100}" y2="${padT + ph}" stroke="#D97706" stroke-width="1.8" stroke-dasharray="3 3"/>
+    <circle cx="${x100}" cy="${y100Roi}" r="7" fill="#D97706" stroke="#FFFFFF" stroke-width="2.5"/>
+    <rect x="${x100 - 80}" y="${y100Roi - 44}" width="160" height="38" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(217,119,6,0.15))"/>
+    <text x="${x100}" y="${y100Roi - 26}" fill="#B45309" font-size="11" font-weight="900" text-anchor="middle">★ 100% Payback Milestone</text>
+    <text x="${x100}" y="${y100Roi - 12}" fill="#78350F" font-size="11" font-weight="800" text-anchor="middle">Month ${focus.m100.toFixed(1)} | Cum. ${fmtInt(focus.tires100)} Tires</text>
+  `;
+
+  // Target ROI Trigger Node
+  if (focus.mTarget <= totalM) {
+    const xTarget = toX(focus.mTarget);
+    const yTargetRoi = toYRoi(focus.targetRoiPct);
+
+    content += `
+      <line x1="${xTarget}" y1="${yTargetRoi}" x2="${xTarget}" y2="${padT + ph}" stroke="#2563EB" stroke-width="2" stroke-dasharray="4 3"/>
+      <circle cx="${xTarget}" cy="${yTargetRoi}" r="8" fill="#2563EB" stroke="#FFFFFF" stroke-width="3"/>
+      <rect x="${xTarget - 95}" y="${yTargetRoi - 48}" width="190" height="42" rx="6" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.8" filter="drop-shadow(0 3px 6px rgba(37,99,235,0.2))"/>
+      <text x="${xTarget}" y="${yTargetRoi - 30}" fill="#1E40AF" font-size="11" font-weight="900" text-anchor="middle">★ Hits ${focus.targetRoiPct}% Target (Renewal Trigger)</text>
+      <text x="${xTarget}" y="${yTargetRoi - 14}" fill="#1D4ED8" font-size="11.5" font-weight="800" text-anchor="middle">Month ${focus.mTarget} | Cum. ${fmtInt(focus.targetTires)} Tires</text>
+    `;
+  }
+
+  // End Point Tooltips
+  const endX = toX(totalM);
+  const endYRev = toYMoney(focus.totalRevUsd);
+  const endYRoi = toYRoi(focus.totalRoiPct);
+  content += `
+    <circle cx="${endX}" cy="${endYRev}" r="5.5" fill="#059669" stroke="#FFF" stroke-width="2.5"/>
+    <text x="${endX - 10}" y="${endYRev - 10}" fill="#059669" font-size="12.5" font-weight="800" text-anchor="end">${fmtMoney(focus.totalRevUsd)}</text>
+
+    <circle cx="${endX}" cy="${endYRoi}" r="5.5" fill="#2563EB" stroke="#FFF" stroke-width="2.5"/>
+    <text x="${endX - 10}" y="${endYRoi - 10}" fill="#2563EB" font-size="12.5" font-weight="900" text-anchor="end">${fmtPct(focus.totalRoiPct)}</text>
+  `;
+
+  // Axis Labels
+  content += `
+    <text x="${padL - 10}" y="${padT - 16}" fill="#0F172A" font-size="13" font-weight="800" text-anchor="start">↑ Amount (USD / 金额)</text>
+    <text x="${w - padR + 10}" y="${padT - 16}" fill="#2563EB" font-size="13" font-weight="800" text-anchor="start">↑ Cumulative ROI (% / 累计回报率)</text>
+    <text x="${w - padR}" y="${padT + ph + 38}" fill="#334155" font-size="12.5" font-weight="800" text-anchor="end">Contract Months (月份) →</text>
+  `;
+
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.innerHTML = content;
+}
+
+// =========================================================================
+// SECTION 4 LOGIC: Store Renewal & Upgrade Overall Financial Projection
+// =========================================================================
+function recalcOverallSimulation() {
+  const cFSPlus = parseInt(document.getElementById('cntFSPlus').value) || 0;
+  const cFS     = parseInt(document.getElementById('cntFS').value) || 0;
+  const cSC     = parseInt(document.getElementById('cntSC').value) || 0;
+  const cEXP    = parseInt(document.getElementById('cntEXP').value) || 0;
+  const cEX     = parseInt(document.getElementById('cntEX').value) || 0;
+
+  const totalStores = cFSPlus + cFS + cSC + cEXP + cEX;
+  document.getElementById('dispTotalStoresCount').innerText = totalStores;
+
+  const remodelRatio = parseInt(document.getElementById('simRemodelRatio').value) || 50;
+  document.getElementById('dispRemodelRatio').innerText = remodelRatio + '%';
+
+  const countRemodel = Math.round(totalStores * (remodelRatio / 100));
+  const countUpgrade = totalStores - countRemodel;
+  document.getElementById('dispCountRemodel').innerText = countRemodel + ' Stores';
+  document.getElementById('dispCountUpgrade').innerText = countUpgrade + ' Stores';
+
+  // Store mix dictionary
+  const storeCounts = {
+    'FS+': cFSPlus,
+    'FS': cFS,
+    'SC': cSC,
+    'EXP': cEXP,
+    'EX': cEX
+  };
+
+  const gmt = globalGmtUsd;
+
+  // 1. Calculate Portfolio Total Costs
+  let costA = 0;
+  let costUpgradeFull = 0;
+  let baseP2Tires = 0;
+  let incP2TiresFull = 0;
+
+  tierList.forEach(t => {
+    const n = storeCounts[t.id] || 0;
+    const inv1 = t.inv1_usd;
+    const p2Months = t.period2;
+    costA += n * inv1;
+    costUpgradeFull += n * (inv1 * (t.inv2Pct / 100));
+    baseP2Tires += n * (t.tpp1 * p2Months);
+    incP2TiresFull += n * ((t.tpp2 - t.tpp1) * p2Months);
+  });
+
+  const avgCostPerStore = totalStores > 0 ? (costA / totalStores) : 0;
+
+  // Strategy B (Hybrid based on remodelRatio)
+  const remodelFraction = totalStores > 0 ? (countRemodel / totalStores) : 0.5;
+  const upgradeFraction = 1.0 - remodelFraction;
+
+  const costB = (costA * remodelFraction) + (costUpgradeFull * upgradeFraction);
+  const incP2TiresB = incP2TiresFull * upgradeFraction;
+
+  // Strategy C (All Upgrade)
+  const costC = costUpgradeFull;
+
+  // Total P2 Volumes
+  const volP2A = baseP2Tires;
+  const volP2B = baseP2Tires + incP2TiresB;
+  const volP2C = baseP2Tires + incP2TiresFull;
+
+  // Total P2 Revenues
+  const revP2A = volP2A * gmt;
+  const revP2B = volP2B * gmt;
+  const revP2C = volP2C * gmt;
+
+  // Phase II ROIs
+  const roiP2A = costA > 0 ? ((revP2A / costA) * 100) : 0;
+  const roiP2B = costB > 0 ? ((revP2B / costB) * 100) : 0;
+  const roiP2C = costC > 0 ? ((revP2C / costC) * 100) : 0;
+
+  // Cost Savings
+  const saveB = costA - costB;
+  const savePctB = costA > 0 ? ((saveB / costA) * 100) : 0;
+  const saveC = costA - costC;
+  const savePctC = costA > 0 ? ((saveC / costA) * 100) : 0;
+
+  // Update DOM Cards
+  document.getElementById('costStratA').innerText = fmtMoney(costA);
+  document.getElementById('costStratB').innerText = fmtMoney(costB);
+  document.getElementById('costStratC').innerText = fmtMoney(costC);
+
+  document.getElementById('detailStratA').innerHTML = `
+    • All ${totalStores} stores execute complete 100% hard rebuild (全重装)<br>
+    • Average capital investment per store: <strong>${fmtMoney(avgCostPerStore)}</strong><br>
+    • Construction downtime leads to customer churn and zero incremental volume incentive
+  `;
+
+  document.getElementById('detailStratB').innerHTML = `
+    • ${countRemodel} aged stores execute 100% full rebuild (${fmtMoney(costA * remodelFraction)})<br>
+    • ${countUpgrade} viable stores execute renewal upgrade (${fmtMoney(costUpgradeFull * upgradeFraction)})<br>
+    • Upgraded stores avoid closure, immediately installing EV & tool equipment
+  `;
+
+  document.getElementById('detailStratC').innerHTML = `
+    • All ${totalStores} stores exempt from major hard refurbishment<br>
+    • 100% funds channeled into EV display & high-efficiency machinery<br>
+    • Unlocks maximum incremental tires across Phase II
+  `;
+
+  document.getElementById('savingStratB').innerText = `★ Net Capital Savings: ${fmtMoney(saveB)} (-${savePctB.toFixed(1)}%)`;
+  document.getElementById('costSaveTag').innerText = `Hybrid Net Cost Savings: ${fmtMoney(saveB)} (-${savePctB.toFixed(1)}%)`;
+
+  // Render 3 Comparative Charts (Volume, Cost, ROI)
+  renderBarChartSvg('chartVolumeSvg', [
+    { label: 'Strat A (Remodel)', val: volP2A, color: '#EF4444', text: fmtInt(volP2A) },
+    { label: 'Strat B (Hybrid)',  val: volP2B, color: '#F59E0B', text: fmtInt(volP2B) },
+    { label: 'Strat C (Upgrade)', val: volP2C, color: '#10B981', text: fmtInt(volP2C) }
+  ], 'Tires');
+
+  renderBarChartSvg('chartCostSvg', [
+    { label: 'Strat A (Remodel)', val: costA, color: '#EF4444', text: fmtMoney(costA) },
+    { label: 'Strat B (Hybrid)',  val: costB, color: '#F59E0B', text: fmtMoney(costB) },
+    { label: 'Strat C (Upgrade)', val: costC, color: '#10B981', text: fmtMoney(costC) }
+  ], '$');
+
+  renderBarChartSvg('chartRoiSvg', [
+    { label: 'Strat A (Remodel)', val: roiP2A, color: '#EF4444', text: Math.round(roiP2A) + '%' },
+    { label: 'Strat B (Hybrid)',  val: roiP2B, color: '#F59E0B', text: Math.round(roiP2B) + '%' },
+    { label: 'Strat C (Upgrade)', val: roiP2C, color: '#10B981', text: Math.round(roiP2C) + '%' }
+  ], '%');
+
+  // Render Table
+  const tbody = document.getElementById('overallSummaryTableBody');
+  tbody.innerHTML = `
+    <tr>
+      <td style="text-align:left; font-weight:800; color:#991B1B;">Strategy A: 100% Full Remodel (传统全重装)</td>
+      <td style="font-weight:700;">${fmtMoney(costA)}</td>
+      <td style="color:var(--text-muted);">$0</td>
+      <td style="color:var(--text-muted);">0.0%</td>
+      <td style="font-weight:700;">${fmtInt(volP2A)}</td>
+      <td style="color:var(--text-muted);">0</td>
+      <td>${fmtMoney(revP2A)}</td>
+      <td style="font-weight:800; color:#991B1B;">${Math.round(roiP2A)}%</td>
+    </tr>
+    <tr style="background:#FEFCE8;">
+      <td style="text-align:left; font-weight:800; color:#854D0E;">Strategy B: Balanced Hybrid Model (混合平衡策略)</td>
+      <td style="font-weight:700;">${fmtMoney(costB)}</td>
+      <td style="font-weight:800; color:var(--gy-green);">${fmtMoney(saveB)}</td>
+      <td style="font-weight:800; color:var(--gy-green);">-${savePctB.toFixed(1)}%</td>
+      <td style="font-weight:700;">${fmtInt(volP2B)}</td>
+      <td style="font-weight:800; color:var(--gy-green);">+${fmtInt(incP2TiresB)}</td>
+      <td>${fmtMoney(revP2B)}</td>
+      <td style="font-weight:800; color:#854D0E;">${Math.round(roiP2B)}%</td>
+    </tr>
+    <tr style="background:#F0FDF4;">
+      <td style="text-align:left; font-weight:800; color:#166534;">Strategy C: 100% Renewal Upgrade (全面续约升级)</td>
+      <td style="font-weight:700;">${fmtMoney(costC)}</td>
+      <td style="font-weight:900; color:var(--gy-green);">${fmtMoney(saveC)}</td>
+      <td style="font-weight:900; color:var(--gy-green);">-${savePctC.toFixed(1)}%</td>
+      <td style="font-weight:700;">${fmtInt(volP2C)}</td>
+      <td style="font-weight:900; color:var(--gy-green);">+${fmtInt(incP2TiresFull)}</td>
+      <td>${fmtMoney(revP2C)}</td>
+      <td style="font-weight:900; color:#166534;">${Math.round(roiP2C)}%</td>
+    </tr>
+  `;
+}
+
+// Helper to draw clean SVG comparative bar chart
+function renderBarChartSvg(elemId, items, unit) {
+  const svg = document.getElementById(elemId);
+  const w = 320, h = 200, padL = 20, padR = 20, padT = 25, padB = 40;
+  const pw = w - padL - padR;
+  const ph = h - padT - padB;
+
+  const maxVal = Math.max(...items.map(d => d.val)) * 1.25 || 1;
+  const barW = 54;
+  const stepX = pw / items.length;
+
+  let content = '';
+
+  // Baseline
+  content += `<line x1="${padL}" y1="${padT + ph}" x2="${w - padR}" y2="${padT + ph}" stroke="#CBD5E1" stroke-width="1.5" />`;
+
+  items.forEach((d, i) => {
+    const cx = padL + i * stepX + stepX / 2;
+    const barH = (d.val / maxVal) * ph;
+    const y = padT + ph - barH;
+
+    content += `
+      <rect x="${cx - barW/2}" y="${y}" width="${barW}" height="${barH}" fill="${d.color}" rx="5" />
+      <text x="${cx}" y="${y - 6}" fill="${d.color}" font-size="11.5" font-weight="900" text-anchor="middle">${d.text}</text>
+      <text x="${cx}" y="${padT + ph + 16}" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${d.label.split(' ')[0] + ' ' + d.label.split(' ')[1]}</text>
+      <text x="${cx}" y="${padT + ph + 30}" fill="#64748B" font-size="10" font-weight="600" text-anchor="middle">${d.label.split(' ')[2] || ''}</text>
+    `;
+  });
+
+  svg.innerHTML = content;
+}
+
+window.onload = init;
+</script>
+</body>
+</html>
